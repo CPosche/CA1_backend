@@ -1,7 +1,11 @@
 package facades;
 
+import dtos.PersonDto;
+import entities.Person;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 public class PersonFacade {
 
@@ -28,5 +32,17 @@ public class PersonFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
+
+
+    public PersonDto getPersonByPhoneNumber(int phoneNumber) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Person> query = em.createQuery("SELECT p from Person p join p.phones ph where ph.phoneNumber = :phoneNumber", Person.class);
+        query.setParameter("phoneNumber", phoneNumber);
+        Person person = query.getSingleResult();
+        if (person == null)
+            return null;
+        return new PersonDto(person);
+    }
+
+
 }

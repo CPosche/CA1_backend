@@ -1,6 +1,7 @@
 package dtos;
 
 import entities.Hobby;
+import entities.Person;
 import interfaces.IDTO;
 import lombok.Data;
 
@@ -14,15 +15,24 @@ import java.util.Set;
  */
 @Data
 public class PersonDto implements Serializable, IDTO {
-    private final Integer id;
+    private Integer id;
     @Size(max = 45)
     @NotNull
-    private final String personFirstname;
+    private String personFirstname;
     @Size(max = 45)
     @NotNull
-    private final String personLastname;
+    private String personLastname;
     @Size(max = 45)
     @NotNull
-    private final String personEmail;
-    private final Set<Hobby> hobbies;
+    private String personEmail;
+    private Set<Hobby> hobbies;
+
+    public PersonDto(Person person) {
+        if (person.getId() != null)
+            this.id = person.getId();
+        this.personFirstname = person.getPersonFirstname();
+        this.personLastname = person.getPersonLastname();
+        this.personEmail = person.getPersonEmail();
+        this.hobbies = person.getHobbies();
+    }
 }

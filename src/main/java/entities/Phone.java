@@ -26,6 +26,9 @@ public class Phone {
     @JoinColumn(name = "fk_person_id", nullable = false)
     private Person fkPerson;
 
+    public Phone() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -58,4 +61,8 @@ public class Phone {
         this.fkPerson = fkPerson;
     }
 
+    public Phone(Integer phoneNumber, String phoneDesc) {
+        this.phoneNumber = phoneNumber;
+        this.phoneDesc = phoneDesc;
+    }
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "person")
+@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +30,8 @@ public class Person {
     @Column(name = "person_email", nullable = false, length = 45)
     private String personEmail;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_address_id", nullable = false)
+    @JoinColumn(name = "fk_address_id")
     private Address fkAddress;
 
     @ManyToMany
@@ -40,8 +40,12 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "fk_hobby_id"))
     private Set<Hobby> hobbies = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "fkPerson")
+    @OneToMany(mappedBy = "fkPerson", cascade = CascadeType.PERSIST)
     private Set<Phone> phones = new LinkedHashSet<>();
+
+    public Person() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -95,8 +99,14 @@ public class Person {
         return phones;
     }
 
-    public void setPhones(Set<Phone> phones) {
-        this.phones = phones;
+    public void addPhones(Phone phone) {
+        this.phones.add(phone);
+        phone.setFkPerson(this);
     }
 
+    public Person(String personFirstname, String personLastname, String personEmail) {
+        this.personFirstname = personFirstname;
+        this.personLastname = personLastname;
+        this.personEmail = personEmail;
+    }
 }

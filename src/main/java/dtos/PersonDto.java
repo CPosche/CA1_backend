@@ -1,6 +1,7 @@
 package dtos;
 
 import entities.Hobby;
+import interfaces.IDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -12,7 +13,7 @@ import java.util.Set;
  * A DTO for the {@link entities.Person} entity
  */
 @Data
-public class PersonDto implements Serializable {
+public class PersonDto implements Serializable, IDTO {
     private final Integer id;
     @Size(max = 45)
     @NotNull

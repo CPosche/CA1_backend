@@ -1,0 +1,6 @@
+POST http://localhost:8080/CA1/api/persons/
+Content-Type: application/json
+
+{"personFirstname": "Frederik", "personLastname": "Hess", "personEmail": "Frederik@hess.dk"}
+
+###

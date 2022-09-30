@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.CityinfoDto;
 import dtos.PersonDto;
 import entities.Cityinfo;
 import entities.Person;
@@ -86,19 +87,20 @@ public class PersonFacade {
         return PersonDto.getDtos(new LinkedHashSet<>(persons));
     }
 
-    public int getCounByHobby(int hobbyID){
+    public int getCountByHobby(int hobbyID){
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("select count(distinct p) from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID");
         query.setParameter("hobbyID", hobbyID);
         return Math.toIntExact((long) query.getSingleResult());
     }
 
-    public List<PersonDto> getPersonsByZip(Cityinfo cityinfo) {
+    public List<PersonDto> getPersonsByZip(CityinfoDto cityinfoDto) {
         EntityManager em = emf.createEntityManager();
-        String cityName = cityinfo.getCityinfoCity();
-        int zipCode = cityinfo.getCityinfoZipcode();
-        TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode", Person.class);
+        String cityName = cityinfoDto.getCityinfoCity();
+        int zipCode = cityinfoDto.getCityinfoZipcode();
+        TypedQuery<Person> query = em.createQuery("select distinct p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode AND pc.cityinfoCity = :cityName", Person.class);
         query.setParameter("zipCode", zipCode);
+        query.setParameter("cityName", cityName);
         List<Person> personList = query.getResultList();
         if (personList == null)
             return null;

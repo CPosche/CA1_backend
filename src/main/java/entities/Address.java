@@ -32,12 +32,12 @@ public class Address {
     @OneToMany(mappedBy = "fkAddress")
     private Set<Person> people = new LinkedHashSet<>();
 
+    public Address() {
+    }
+
     public Address(String adressStreet, String addressInfo) {
         this.adressStreet = adressStreet;
         this.addressInfo = addressInfo;
-    }
-
-    public Address() {
     }
 
     public Address(String adressStreet) {
@@ -78,6 +78,10 @@ public class Address {
 
     public Set<Person> getPeople() {
         return people;
+    }
+
+    public void setPeople(Set<Person> people) {
+        this.people = people;
     }
 
 }

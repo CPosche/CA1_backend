@@ -24,7 +24,7 @@ public class Cityinfo {
     @Column(name = "cityinfo_city", nullable = false, length = 45)
     private String cityinfoCity;
 
-    @OneToMany(mappedBy = "fkCityinfo")
+    @OneToMany(mappedBy = "fkCityinfo", cascade = CascadeType.PERSIST)
     private Set<Address> addresses = new LinkedHashSet<>();
 
     public Cityinfo() {
@@ -67,4 +67,16 @@ public class Cityinfo {
         address.setFkCityinfo(this);
     }
 
+    public Cityinfo() {
+    }
+
+    public void addAddress(Address address) {
+        address.setFkCityinfo(this);
+
+    }
+
+    public Cityinfo(Integer cityinfoZipcode, String cityinfoCity) {
+        this.cityinfoZipcode = cityinfoZipcode;
+        this.cityinfoCity = cityinfoCity;
+    }
 }

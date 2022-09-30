@@ -37,7 +37,10 @@ public class Person {
     @JoinColumn(name = "fk_address_id")
     private Address fkAddress;
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(name = "hobby_has_person",
             joinColumns = @JoinColumn(name = "fk_person_id"),
             inverseJoinColumns = @JoinColumn(name = "fk_hobby_id"))
@@ -82,6 +85,11 @@ public class Person {
         this.personEmail = personEmail;
     }
 
+    public void addAddress(Address address) {
+        this.fkAddress = address;
+        address.getPeople().add(this);
+    }
+
     public Address getFkAddress() {
         return fkAddress;
     }
@@ -94,8 +102,9 @@ public class Person {
         return hobbies;
     }
 
-    public void setHobbies(Set<Hobby> hobbies) {
-        this.hobbies = hobbies;
+    public void addHobby (Hobby hobby){
+        this.hobbies.add(hobby);
+        hobby.getPeople().add(this);
     }
 
     public Set<Phone> getPhones() {
@@ -105,11 +114,6 @@ public class Person {
     public void addPhones(Phone phone) {
         this.phones.add(phone);
         phone.setFkPerson(this);
-    }
-
-    public void addAddress(Address address) {
-        this.fkAddress = address;
-        address.getPeople().add(this);
     }
 
     public Person(String personFirstname, String personLastname, String personEmail) {

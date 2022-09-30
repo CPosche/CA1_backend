@@ -1,5 +1,7 @@
 package entities;
 
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,11 +26,16 @@ public class Hobby {
     @Column(name = "hobby_desc", nullable = false, length = 45)
     private String hobbyDesc;
 
-    @ManyToMany
-    @JoinTable(name = "hobby_has_person",
-            joinColumns = @JoinColumn(name = "fk_hobby_id"),
-            inverseJoinColumns = @JoinColumn(name = "fk_person_id"))
+    @ManyToMany(mappedBy = "hobbies")
     private Set<Person> people = new LinkedHashSet<>();
+
+    public Hobby() {
+    }
+
+    public Hobby(String hobbyName, String hobbyDesc) {
+        this.hobbyName = hobbyName;
+        this.hobbyDesc = hobbyDesc;
+    }
 
     public Integer getId() {
         return id;

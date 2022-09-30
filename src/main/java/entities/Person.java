@@ -1,9 +1,12 @@
 package entities;
 
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -30,7 +33,7 @@ public class Person {
     @Column(name = "person_email", nullable = false, length = 45)
     private String personEmail;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_address_id")
     private Address fkAddress;
 
@@ -104,9 +107,27 @@ public class Person {
         phone.setFkPerson(this);
     }
 
+    public void addAddress(Address address) {
+        this.fkAddress = address;
+        address.getPeople().add(this);
+    }
+
     public Person(String personFirstname, String personLastname, String personEmail) {
         this.personFirstname = personFirstname;
         this.personLastname = personLastname;
         this.personEmail = personEmail;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return getId().equals(person.getId()) && getPersonFirstname().equals(person.getPersonFirstname()) && getPersonLastname().equals(person.getPersonLastname()) && getPersonEmail().equals(person.getPersonEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

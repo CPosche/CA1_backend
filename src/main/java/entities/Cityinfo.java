@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "cityinfo")
+@NamedQuery(name = "Cityinfo.deleteAllRows", query = "delete from Cityinfo")
 public class Cityinfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,14 @@ public class Cityinfo {
 
     @OneToMany(mappedBy = "fkCityinfo")
     private Set<Address> addresses = new LinkedHashSet<>();
+
+    public Cityinfo() {
+    }
+
+    public Cityinfo(Integer cityinfoZipcode, String cityinfoCity) {
+        this.cityinfoZipcode = cityinfoZipcode;
+        this.cityinfoCity = cityinfoCity;
+    }
 
     public Integer getId() {
         return id;
@@ -54,8 +63,8 @@ public class Cityinfo {
         return addresses;
     }
 
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
+    public void addAddress(Address address) {
+        address.setFkCityinfo(this);
     }
 
 }

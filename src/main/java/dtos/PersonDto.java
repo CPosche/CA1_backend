@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -33,6 +34,5 @@ public class PersonDto implements Serializable, IDTO {
         this.personFirstname = person.getPersonFirstname();
         this.personLastname = person.getPersonLastname();
         this.personEmail = person.getPersonEmail();
-        this.hobbies = person.getHobbies();
     }
 }

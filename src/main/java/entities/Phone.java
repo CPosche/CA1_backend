@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "phone")
+@NamedQuery(name = "Phone.deleteAllRows", query = "delete from Phone")
 public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class Phone {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_person_id", nullable = false)
+    @JoinColumn(name = "fk_person_id")
     private Person fkPerson;
 
     public Phone() {

@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "address")
+@NamedQuery(name = "Address.deleteAllRows", query = "delete from Address")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +25,24 @@ public class Address {
     private String addressInfo;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_cityinfo_id", nullable = false)
     private Cityinfo fkCityinfo;
 
     @OneToMany(mappedBy = "fkAddress")
     private Set<Person> people = new LinkedHashSet<>();
+
+    public Address(String adressStreet, String addressInfo) {
+        this.adressStreet = adressStreet;
+        this.addressInfo = addressInfo;
+    }
+
+    public Address() {
+    }
+
+    public Address(String adressStreet) {
+        this.adressStreet = adressStreet;
+    }
 
     public Integer getId() {
         return id;
@@ -65,10 +78,6 @@ public class Address {
 
     public Set<Person> getPeople() {
         return people;
-    }
-
-    public void setPeople(Set<Person> people) {
-        this.people = people;
     }
 
 }

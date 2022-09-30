@@ -5,6 +5,7 @@ import entities.Person;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 public class PersonFacade {
@@ -35,7 +36,7 @@ public class PersonFacade {
 
 
     public PersonDto getPersonByPhoneNumber(int phoneNumber) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT p from Person p join p.phones ph where ph.phoneNumber = :phoneNumber", Person.class);
         query.setParameter("phoneNumber", phoneNumber);
         Person person = query.getSingleResult();
@@ -44,5 +45,32 @@ public class PersonFacade {
         return new PersonDto(person);
     }
 
+    public PersonDto editPerson(PersonDto personDto){
+        EntityManager em = getEntityManager();
+        Person person = em.find(Person.class, personDto.getId());
+        person.setPersonFirstname(personDto.getPersonFirstname());
+        person.setPersonLastname(personDto.getPersonLastname());
+        person.setPersonEmail(personDto.getPersonEmail());
+        em.getTransaction().begin();
+        em.persist(person);
+        em.getTransaction().commit();
+        return personDto;
+    }
 
+
+    public int getCountByZip(int zip) {
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("select count(p) from Person p join p.fkAddress a join a.fkCityinfo ci where ci.cityinfoZipcode = :zip");
+        query.setParameter("zip", zip);
+        return Math.toIntExact((long) query.getSingleResult());
+    }
+
+    public PersonDto createPerson(PersonDto personDto) {
+        EntityManager em = getEntityManager();
+        Person person = new Person(personDto.getPersonFirstname(), personDto.getPersonLastname(), personDto.getPersonEmail());
+        em.getTransaction().begin();
+        em.persist(person);
+        em.getTransaction().commit();
+        return new PersonDto(person);
+    }
 }

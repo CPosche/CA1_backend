@@ -24,12 +24,24 @@ public class Address {
     private String addressInfo;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_cityinfo_id", nullable = false)
     private Cityinfo fkCityinfo;
 
     @OneToMany(mappedBy = "fkAddress")
     private Set<Person> people = new LinkedHashSet<>();
+
+    public Address() {
+    }
+
+    public Address(String adressStreet, String addressInfo) {
+        this.adressStreet = adressStreet;
+        this.addressInfo = addressInfo;
+    }
+
+    public Address(String adressStreet) {
+        this.adressStreet = adressStreet;
+    }
 
     public Integer getId() {
         return id;

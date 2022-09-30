@@ -8,6 +8,8 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,7 +27,7 @@ public class PersonDto implements Serializable, IDTO {
     @Size(max = 45)
     @NotNull
     private String personEmail;
-    private Set<Hobby> hobbies;
+    private List<HobbyDto> hobbies;
 
     public PersonDto(Person person) {
         if (person.getId() != null)
@@ -33,6 +35,12 @@ public class PersonDto implements Serializable, IDTO {
         this.personFirstname = person.getPersonFirstname();
         this.personLastname = person.getPersonLastname();
         this.personEmail = person.getPersonEmail();
-        this.hobbies = person.getHobbies();
+        if(!person.getHobbies().isEmpty())
+            this.hobbies = HobbyDto.getDtos(person.getHobbies());
+
+    }
+    public static List<PersonDto> getDtos(Set<Person> persons) {
+        List<PersonDto> persondtos = new ArrayList(persons);
+        return persondtos;
     }
 }

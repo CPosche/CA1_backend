@@ -1,5 +1,7 @@
 package entities;
 
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,11 +32,14 @@ public class Person {
     @Column(name = "person_email", nullable = false, length = 45)
     private String personEmail;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_address_id")
     private Address fkAddress;
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(name = "hobby_has_person",
             joinColumns = @JoinColumn(name = "fk_person_id"),
             inverseJoinColumns = @JoinColumn(name = "fk_hobby_id"))
@@ -79,6 +84,11 @@ public class Person {
         this.personEmail = personEmail;
     }
 
+    public void addAddress(Address address) {
+        this.fkAddress = address;
+        address.getPeople().add(this);
+    }
+
     public Address getFkAddress() {
         return fkAddress;
     }
@@ -91,8 +101,9 @@ public class Person {
         return hobbies;
     }
 
-    public void setHobbies(Set<Hobby> hobbies) {
-        this.hobbies = hobbies;
+    public void addHobby (Hobby hobby){
+        this.hobbies.add(hobby);
+        hobby.getPeople().add(this);
     }
 
     public Set<Phone> getPhones() {
@@ -109,4 +120,5 @@ public class Person {
         this.personLastname = personLastname;
         this.personEmail = personEmail;
     }
+
 }

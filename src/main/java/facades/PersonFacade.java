@@ -1,11 +1,14 @@
 package facades;
 
 import dtos.PersonDto;
+import entities.Cityinfo;
 import entities.Person;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 public class PersonFacade {
 
@@ -43,6 +46,31 @@ public class PersonFacade {
             return null;
         return new PersonDto(person);
     }
+
+    public List<PersonDto> getPersonsByHobby(int hobbyID){
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Person> query = em.createQuery("select DISTINCT p from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID", Person.class);
+        query.setParameter("hobbyID", hobbyID);
+        List<Person> persons = query.getResultList();
+        if (persons == null)
+            return null;
+        return PersonDto.getDtos(new LinkedHashSet<>(persons));
+    }
+
+    public List<PersonDto> getPersonsByZip(Cityinfo cityinfo) {
+        EntityManager em = emf.createEntityManager();
+        String cityName = cityinfo.getCityinfoCity();
+        int zipCode = cityinfo.getCityinfoZipcode();
+        TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode", Person.class);
+        query.setParameter("zipCode", zipCode);
+        List<Person> personList = query.getResultList();
+        if (personList == null)
+            return null;
+        return PersonDto.getDtos(new LinkedHashSet<>(personList));
+
+    }
+
+
 
 
 }

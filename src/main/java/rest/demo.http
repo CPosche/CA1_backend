@@ -4,3 +4,8 @@ Content-Type: application/json
 {"personFirstname": "Frederik", "personLastname": "Hess", "personEmail": "Frederik@hess.dk"}
 
 ###
+
+GET http://localhost:8080/CA1/api/persons?zipcode=3450&city=alleroed
+Content-Type: application/json
+
+###

@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("persons")
@@ -36,12 +37,11 @@ public class PersonResource {
         return Response.ok().entity(GSON.toJson(newPerson)).build();
     }
 
-    //    @GET
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getPerson(@QueryParam("zipcode") int zipcode, @QueryParam("city") String city){
-//        CityinfoDto cityinfoDto = FACADE.getPersonsByZip();
-//
-//        MovieDTO m = FACADE.getMovieById(id);
-//        return Response.ok().entity(GSON.toJson(m)).build();
-//    }
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPerson(@QueryParam("zipcode") int zipcode, @QueryParam("city") String city){
+        List<PersonDto> personList = FACADE.getPersonsByZip2(zipcode, city);
+        return Response.ok().entity(GSON.toJson(personList)).build();
+    }
+
 }

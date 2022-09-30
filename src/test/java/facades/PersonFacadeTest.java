@@ -101,13 +101,18 @@ public class PersonFacadeTest {
         assertEquals(2, facade.getPersonsByHobby(1).size());
     }
 
+//    @Test
+//    void getPersonsByZipTest() {
+//        int cityInfoId = 1;
+//        EntityManager em = emf.createEntityManager();
+//        Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
+//        CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
+//        assertEquals(2, facade.getPersonsByZip(cityinfoDto).size());
+//    }
+
     @Test
-    void getPersonsByZipTest() {
-        int cityInfoId = 1;
-        EntityManager em = emf.createEntityManager();
-        Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
-        CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
-        assertEquals(2, facade.getPersonsByZip(cityinfoDto).size());
+    void getPersonsByZipTest2() {
+       assertEquals(2,facade.getPersonsByZip2(3450,"Alleroed").size());
     }
 
     @Test

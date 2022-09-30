@@ -35,16 +35,16 @@ public class PersonFacadeTest {
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE phone AUTO_INCREMENT = 1");
+            em.createNativeQuery("ALTER TABLE phone AUTO_INCREMENT = 1").executeUpdate();
             em.createNativeQuery("DELETE FROM hobby_has_person").executeUpdate();
-            em.createQuery("DELETE From Hobby").executeUpdate();
-            em.createNativeQuery("ALTER TABLE Hobby AUTO_INCREMENT = 1").executeUpdate();
+            em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
+            em.createNativeQuery("ALTER TABLE hobby AUTO_INCREMENT = 1").executeUpdate();
             em.createNamedQuery("Person.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE person AUTO_INCREMENT = 1");
+            em.createNativeQuery("ALTER TABLE person AUTO_INCREMENT = 1").executeUpdate();
             em.createNamedQuery("Address.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE address AUTO_INCREMENT = 1");
+            em.createNativeQuery("ALTER TABLE address AUTO_INCREMENT = 1").executeUpdate();
             em.createNamedQuery("Cityinfo.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE cityinfo AUTO_INCREMENT = 1");
+            em.createNativeQuery("ALTER TABLE cityinfo AUTO_INCREMENT = 1").executeUpdate();
 
             Phone phone = new Phone(71241337, "Ny telefon");
             Person testPerson = new Person("Test", "Person", "Test@Person.dk");
@@ -74,14 +74,16 @@ public class PersonFacadeTest {
     @Test
     void editPersonTest(){
         EntityManager em = emf.createEntityManager();
-        PersonDto personDto = new PersonDto(em.find(Person.class, 1));
+        TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
+        query.setParameter("name", "Test");
+        PersonDto personDto = new PersonDto(query.getSingleResult());
         personDto.setPersonEmail("edited@person.dk");
         assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
     }
 
     @Test
     void getCountByZipTest(){
-        assertEquals(1, facade.getCountByZip(4600));
+        assertEquals(2, facade.getCountByZip(3450));
     }
 
     @Test
@@ -104,7 +106,10 @@ public class PersonFacadeTest {
         EntityManager em = emf.createEntityManager();
         Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
         assertEquals(2, facade.getPersonsByZip(cityinfo).size());
+    }
 
-
+    @Test
+    void getCountByHobby(){
+        assertEquals(2, facade.getCounByHobby(1));
     }
 }

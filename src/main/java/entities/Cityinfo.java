@@ -27,13 +27,7 @@ public class Cityinfo {
     @OneToMany(mappedBy = "fkCityinfo", cascade = CascadeType.PERSIST)
     private Set<Address> addresses = new LinkedHashSet<>();
 
-    public Cityinfo() {
-    }
 
-    public Cityinfo(Integer cityinfoZipcode, String cityinfoCity) {
-        this.cityinfoZipcode = cityinfoZipcode;
-        this.cityinfoCity = cityinfoCity;
-    }
 
     public Integer getId() {
         return id;
@@ -64,15 +58,11 @@ public class Cityinfo {
     }
 
     public void addAddress(Address address) {
+        this.addresses.add(address);
         address.setFkCityinfo(this);
     }
 
     public Cityinfo() {
-    }
-
-    public void addAddress(Address address) {
-        address.setFkCityinfo(this);
-
     }
 
     public Cityinfo(Integer cityinfoZipcode, String cityinfoCity) {

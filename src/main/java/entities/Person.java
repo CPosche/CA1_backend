@@ -102,7 +102,7 @@ public class Person {
         return hobbies;
     }
 
-    public void addHobby (Hobby hobby){
+    public void addHobby(Hobby hobby) {
         this.hobbies.add(hobby);
         hobby.getPeople().add(this);
     }
@@ -120,18 +120,5 @@ public class Person {
         this.personFirstname = personFirstname;
         this.personLastname = personLastname;
         this.personEmail = personEmail;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person)) return false;
-        Person person = (Person) o;
-        return getId().equals(person.getId()) && getPersonFirstname().equals(person.getPersonFirstname()) && getPersonLastname().equals(person.getPersonLastname()) && getPersonEmail().equals(person.getPersonEmail());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
     }
 }

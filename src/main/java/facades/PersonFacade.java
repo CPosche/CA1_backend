@@ -86,6 +86,13 @@ public class PersonFacade {
         return PersonDto.getDtos(new LinkedHashSet<>(persons));
     }
 
+    public int getCounByHobby(int hobbyID){
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("select count(distinct p) from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID");
+        query.setParameter("hobbyID", hobbyID);
+        return Math.toIntExact((long) query.getSingleResult());
+    }
+
     public List<PersonDto> getPersonsByZip(Cityinfo cityinfo) {
         EntityManager em = emf.createEntityManager();
         String cityName = cityinfo.getCityinfoCity();

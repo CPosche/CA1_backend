@@ -1,11 +1,15 @@
 package dtos;
 
+import entities.Address;
+import entities.Hobby;
 import interfaces.IDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,11 +17,25 @@ import java.util.Set;
  */
 @Data
 public class AddressDto implements Serializable, IDTO {
-    private final Integer id;
+    private Integer id;
     @Size(max = 45)
     @NotNull
-    private final String adressStreet;
+    private String adressStreet;
     @Size(max = 45)
-    private final String addressInfo;
-    private final Set<PersonDto> people;
+    private String addressInfo;
+    private List<PersonDto> people;
+
+    public AddressDto(Address address) {
+        if (address.getId() != null)
+            this.id = address.getId();
+        this.adressStreet = address.getAdressStreet();
+        this.addressInfo = address.getAddressInfo();
+        if (!address.getPeople().isEmpty())
+            this.people = PersonDto.getDtos(address.getPeople());
+    }
+
+    public static List<AddressDto> getDtos(Set<Address> addresses) {
+        List<AddressDto> addressDtos = new ArrayList(addresses);
+        return addressDtos;
+    }
 }

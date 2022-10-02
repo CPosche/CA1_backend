@@ -52,7 +52,7 @@ public class PersonFacadeTest {
             testPerson.addPhones(phone);
             Hobby badminton = new Hobby("Badminton", "Vi spiller badminton hver torsdag kl 16");
             Address address = new Address("Solvej 2");
-            Cityinfo cityinfo = new Cityinfo(3450, "Alleroed");
+            Cityinfo cityinfo = new Cityinfo(3450, "Allerød");
             cityinfo.addAddress(address);
             testPerson.addAddress(address);
             testPerson.addHobby(badminton);

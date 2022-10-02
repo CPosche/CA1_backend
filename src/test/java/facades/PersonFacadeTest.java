@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.CityinfoDto;
 import dtos.HobbyDto;
 import dtos.PersonDto;
 import entities.*;
@@ -51,7 +52,7 @@ public class PersonFacadeTest {
             testPerson.addPhones(phone);
             Hobby badminton = new Hobby("Badminton", "Vi spiller badminton hver torsdag kl 16");
             Address address = new Address("Solvej 2");
-            Cityinfo cityinfo = new Cityinfo(3450, "Allerød");
+            Cityinfo cityinfo = new Cityinfo(3450, "Alleroed");
             cityinfo.addAddress(address);
             testPerson.addAddress(address);
             testPerson.addHobby(badminton);
@@ -100,16 +101,22 @@ public class PersonFacadeTest {
         assertEquals(2, facade.getPersonsByHobby(1).size());
     }
 
+//    @Test
+//    void getPersonsByZipTest() {
+//        int cityInfoId = 1;
+//        EntityManager em = emf.createEntityManager();
+//        Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
+//        CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
+//        assertEquals(2, facade.getPersonsByZip(cityinfoDto).size());
+//    }
+
     @Test
-    void getPersonsByZipTest() {
-        int cityInfoId = 1;
-        EntityManager em = emf.createEntityManager();
-        Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
-        assertEquals(2, facade.getPersonsByZip(cityinfo).size());
+    void getPersonsByZipTest2() {
+       assertEquals(2,facade.getPersonsByZip2(3450,"Alleroed").size());
     }
 
     @Test
     void getCountByHobby(){
-        assertEquals(2, facade.getCounByHobby(1));
+        assertEquals(2, facade.getCountByHobby(1));
     }
 }

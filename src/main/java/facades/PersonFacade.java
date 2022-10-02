@@ -63,7 +63,7 @@ public class PersonFacade {
 
 
     public int getCountByZip(int zip) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         Query query = em.createQuery("select count(p) from Person p join p.fkAddress a join a.fkCityinfo ci where ci.cityinfoZipcode = :zip");
         query.setParameter("zip", zip);
         return Math.toIntExact((long) query.getSingleResult());
@@ -78,7 +78,7 @@ public class PersonFacade {
         return new PersonDto(person);
     }
     public List<PersonDto> getPersonsByHobby(int hobbyID){
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         TypedQuery<Person> query = em.createQuery("select DISTINCT p from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID", Person.class);
         query.setParameter("hobbyID", hobbyID);
         List<Person> persons = query.getResultList();
@@ -88,14 +88,14 @@ public class PersonFacade {
     }
 
     public int getCountByHobby(int hobbyID){
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         Query query = em.createQuery("select count(distinct p) from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID");
         query.setParameter("hobbyID", hobbyID);
         return Math.toIntExact((long) query.getSingleResult());
     }
 
 //    public List<PersonDto> getPersonsByZip(CityinfoDto cityinfoDto) {
-//        EntityManager em = emf.createEntityManager();
+//        EntityManager em = getEntityManager();
 //        String cityName = cityinfoDto.getCityinfoCity();
 //        int zipCode = cityinfoDto.getCityinfoZipcode();
 //        TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode AND pc.cityinfoCity = :cityName", Person.class);
@@ -108,7 +108,7 @@ public class PersonFacade {
 //    }
 
     public List<PersonDto> getPersonsByZip2(int zipCode, String cityName) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode AND pc.cityinfoCity = :cityName", Person.class);
         query.setParameter("zipCode", zipCode);
         query.setParameter("cityName", cityName);

@@ -8,5 +8,7 @@ GET http://localhost:8080/CA1/api/persons?zipcode=3450&cityname=alleroed
 Content-Type: application/json
 
 ###
+GET http://localhost:8080/CA1/api/persons/phone?phone=11111111
+Content-Type: application/json
 
 

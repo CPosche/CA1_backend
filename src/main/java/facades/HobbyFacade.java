@@ -1,20 +1,20 @@
 package facades;
 
-import dtos.AddressDto;
-import dtos.PersonDto;
-import entities.Address;
-import entities.Person;
+import dtos.HobbyDto;
+import dtos.PhoneDto;
+import entities.Hobby;
+import entities.Phone;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-public class AddressFacade {
+public class HobbyFacade {
 
-    private static AddressFacade instance;
+    private static HobbyFacade instance;
     private static EntityManagerFactory emf;
 
     //Private Constructor to ensure Singleton
-    private AddressFacade() {}
+    private HobbyFacade() {}
 
 
     /**
@@ -22,10 +22,10 @@ public class AddressFacade {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static AddressFacade getAddressFacade(EntityManagerFactory _emf) {
+    public static HobbyFacade getHobbyFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new AddressFacade();
+            instance = new HobbyFacade();
         }
         return instance;
     }

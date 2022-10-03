@@ -38,7 +38,6 @@ public class PersonDto implements Serializable, IDTO {
         this.personEmail = person.getPersonEmail();
         if(!person.getHobbies().isEmpty())
             this.hobbies = HobbyDto.getDtos(person.getHobbies());
-
     }
     public static List<PersonDto> getDtos(Set<Person> persons) {
         List<PersonDto> persondtos = new ArrayList(persons);

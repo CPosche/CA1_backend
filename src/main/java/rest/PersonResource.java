@@ -50,6 +50,14 @@ public class PersonResource {
     }
 
     @GET
+    @Path("count")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getCountByZip(@QueryParam("zip") int zip){
+        int zipcount = FACADE.getCountByZip(zip);
+        return Response.ok().entity(GSON.toJson(zipcount)).build();
+    }
+
+    @GET
     @Path("phone")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPersonByPhone(@QueryParam("phone") int phone){

@@ -98,8 +98,9 @@ public class PersonFacadeTest {
 
     @Test
     void getPersonsByHobbyTest() {
-        assertEquals(2, facade.getPersonsByHobby(1).size());
+        assertEquals(2, facade.getPersonsByHobby("Badminton").size());
     }
+
 
     @Test
     void getPersonsByZipTest() {
@@ -112,6 +113,6 @@ public class PersonFacadeTest {
 
     @Test
     void getCountByHobby(){
-        assertEquals(2, facade.getCountByHobby(1));
+        assertEquals(2, facade.getCountByHobby("Badminton"));
     }
 }

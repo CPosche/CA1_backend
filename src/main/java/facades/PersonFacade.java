@@ -80,10 +80,10 @@ public class PersonFacade {
         em.getTransaction().commit();
         return new PersonDto(person);
     }
-    public List<PersonDto> getPersonsByHobby(int hobbyID){
+    public List<PersonDto> getPersonsByHobby(String hobbyName){
         EntityManager em = getEntityManager();
-        TypedQuery<Person> query = em.createQuery("select DISTINCT p from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID", Person.class);
-        query.setParameter("hobbyID", hobbyID);
+        TypedQuery<Person> query = em.createQuery("select DISTINCT p from Person p join p.hobbies ph join ph.people php where ph.hobbyName = :hobbyName", Person.class);
+        query.setParameter("hobbyName", hobbyName);
         List<Person> persons = query.getResultList();
         if (persons == null)
             return null;

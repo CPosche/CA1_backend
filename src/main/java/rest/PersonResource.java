@@ -3,9 +3,11 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.CityinfoDto;
+import dtos.HobbyDto;
 import dtos.PersonDto;
 import dtos.RenameMeDTO;
 import entities.Cityinfo;
+import entities.Hobby;
 import facades.PersonFacade;
 import utils.EMF_Creator;
 import facades.FacadeExample;
@@ -41,13 +43,21 @@ public class PersonResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPersonByZip(@QueryParam("zipcode") int zipcode, @QueryParam("cityname") String cityname){
+    public Response getPersonByZip(@QueryParam("zipcode") int zipcode, @QueryParam("cityinfo") String cityinfo){
 //        CityinfoDto cityinfoDto = GSON.fromJson(cityinfo, CityinfoDto.class);
-        Cityinfo cityinfo = new Cityinfo(zipcode, cityname);
-        CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
+        Cityinfo city = new Cityinfo(zipcode, cityinfo);
+        CityinfoDto cityinfoDto = new CityinfoDto(city);
         List<PersonDto> personList = FACADE.getPersonsByZip(cityinfoDto);
         return Response.ok().entity(GSON.toJson(personList)).build();
     }
+    @GET
+    @Path("hobby")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonByHobby(@QueryParam("hobby") String hobby) {
+        List<PersonDto> personDtoList = FACADE.getPersonsByHobby(hobby);
+        return Response.ok().entity(GSON.toJson(personDtoList)).build();
+    }
+
 
     @GET
     @Path("phone")

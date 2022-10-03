@@ -33,6 +33,10 @@ public class Hobby {
     public Hobby() {
     }
 
+    public Hobby(String hobbyName) {
+        this.hobbyName = hobbyName;
+    }
+
     public Hobby(String hobbyName, String hobbyDesc) {
         this.hobbyName = hobbyName;
         this.hobbyDesc = hobbyDesc;

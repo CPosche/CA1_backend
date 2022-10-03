@@ -98,7 +98,7 @@ public class PersonFacadeTest {
 
     @Test
     void getPersonsByHobbyTest() {
-        assertEquals(2, facade.getPersonsByHobby(1).size());
+        assertEquals(2, facade.getPersonsByHobby("badminton").size());
     }
 
     @Test

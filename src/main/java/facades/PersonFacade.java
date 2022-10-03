@@ -2,7 +2,6 @@ package facades;
 
 import dtos.CityinfoDto;
 import dtos.PersonDto;
-import entities.Cityinfo;
 import entities.Hobby;
 import entities.Person;
 

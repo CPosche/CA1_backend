@@ -4,7 +4,7 @@ Content-Type: application/json
 {"personFirstname": "Frederik23", "personLastname": "Hess", "personEmail": "Frederik@hess.dk"}
 
 ###
-GET http://localhost:8080/CA1/api/persons?zipcode=3450&cityname=alleroed
+GET http://localhost:8080/CA1/api/persons/phone?phone=31511533
 Content-Type: application/json
 
 ###

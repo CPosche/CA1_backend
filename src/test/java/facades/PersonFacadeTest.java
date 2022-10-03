@@ -1,7 +1,6 @@
 package facades;
 
 import dtos.CityinfoDto;
-import dtos.HobbyDto;
 import dtos.PersonDto;
 import entities.*;
 import org.junit.jupiter.api.BeforeAll;
@@ -72,15 +71,15 @@ public class PersonFacadeTest {
         assertEquals("Test", facade.getPersonByPhoneNumber(71241337).getPersonFirstname());
     }
 
-    @Test
-    void editPersonTest(){
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
-        query.setParameter("name", "Test");
-        PersonDto personDto = new PersonDto(query.getSingleResult());
-        personDto.setPersonEmail("edited@person.dk");
-        assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
-    }
+//    @Test
+//    void editPersonTest(){
+//        EntityManager em = emf.createEntityManager();
+//        TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
+//        query.setParameter("name", "Test");
+//        PersonDto personDto = new PersonDto(query.getSingleResult());
+//        personDto.setPersonEmail("edited@person.dk");
+//        assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
+//    }
 
     @Test
     void getCountByZipTest(){

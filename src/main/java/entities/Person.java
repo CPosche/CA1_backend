@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -114,6 +115,10 @@ public class Person {
     public void addPhones(Phone phone) {
         this.phones.add(phone);
         phone.setFkPerson(this);
+    }
+
+    public void setHobbies(List<Hobby> hobbies){
+        this.hobbies = new LinkedHashSet<>(hobbies);
     }
 
     public Person(String personFirstname, String personLastname, String personEmail) {

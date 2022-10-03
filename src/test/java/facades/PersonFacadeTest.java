@@ -77,8 +77,10 @@ public class PersonFacadeTest {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
         query.setParameter("name", "Test");
-        PersonDto personDto = new PersonDto(query.getSingleResult());
-        personDto.setPersonEmail("edited@person.dk");
+        Person person = query.getSingleResult();
+        person.setPersonEmail("edited@test.dk");
+        person.addHobby(new Hobby("Canasta", "kortspil"));
+        PersonDto personDto = new PersonDto(person);
         assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
     }
 

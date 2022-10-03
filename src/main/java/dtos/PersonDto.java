@@ -1,5 +1,6 @@
 package dtos;
 
+import entities.Address;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
@@ -33,6 +34,8 @@ public class PersonDto implements Serializable, IDTO {
 
     private List<PhoneDto> phones;
 
+    private AddressDto address;
+
     public PersonDto(Person person) {
         if (person.getId() != null)
             this.id = person.getId();
@@ -43,6 +46,8 @@ public class PersonDto implements Serializable, IDTO {
             this.phones = PhoneDto.getDtos(person.getPhones());
         if(!person.getHobbies().isEmpty())
             this.hobbies = HobbyDto.getDtos(person.getHobbies());
+        if (person.getFkAddress() != null)
+            this.address = new AddressDto(person.getFkAddress());
     }
     public static List<PersonDto> getDtos(Set<Person> persons) {
         List<PersonDto> persondtos = new ArrayList(persons);

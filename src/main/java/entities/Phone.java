@@ -30,6 +30,12 @@ public class Phone {
     public Phone() {
     }
 
+    public Phone(Integer id, Integer phoneNumber, String phoneDesc) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.phoneDesc = phoneDesc;
+    }
+
     public Integer getId() {
         return id;
     }

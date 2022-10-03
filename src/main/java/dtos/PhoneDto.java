@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A DTO for the {@link entities.Phone} entity
@@ -30,7 +31,7 @@ public class PhoneDto implements Serializable, IDTO {
         this.phoneNumber = phone.getPhoneNumber();
     }
 
-    public static List<PhoneDto> getDtos(List<Phone> phones) {
+    public static List<PhoneDto> getDtos(Set<Phone> phones) {
         List<PhoneDto> phoneDtos = new ArrayList(phones);
         return phoneDtos;
     }

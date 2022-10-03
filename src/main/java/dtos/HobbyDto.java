@@ -35,6 +35,7 @@ public class HobbyDto implements Serializable, IDTO {
         if(!hobby.getPeople().isEmpty())
             this.people = PersonDto.getDtos(hobby.getPeople());
     }
+
     public static List<HobbyDto> getDtos(Set<Hobby> hobbies) {
         List<HobbyDto> hobbyDtos = new ArrayList(hobbies);
         return hobbyDtos;

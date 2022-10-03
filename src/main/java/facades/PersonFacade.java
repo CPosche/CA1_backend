@@ -3,6 +3,7 @@ package facades;
 import dtos.CityinfoDto;
 import dtos.PersonDto;
 import entities.Cityinfo;
+import entities.Hobby;
 import entities.Person;
 
 import javax.persistence.EntityManager;
@@ -55,6 +56,8 @@ public class PersonFacade {
         person.setPersonFirstname(personDto.getPersonFirstname());
         person.setPersonLastname(personDto.getPersonLastname());
         person.setPersonEmail(personDto.getPersonEmail());
+        if (!personDto.getHobbies().isEmpty())
+            personDto.getHobbies().forEach(el -> person.addHobby(el.getId() != null ? new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()) : new Hobby(el.getHobbyName(), el.getHobbyDesc())));
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();
@@ -110,8 +113,4 @@ public class PersonFacade {
         return PersonDto.getDtos(new LinkedHashSet<>(personList));
 
     }
-
-
-
-
 }

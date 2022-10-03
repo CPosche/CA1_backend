@@ -38,6 +38,12 @@ public class Hobby {
         this.hobbyDesc = hobbyDesc;
     }
 
+    public Hobby(Integer id, String hobbyName, String hobbyDesc) {
+        this.id = id;
+        this.hobbyName = hobbyName;
+        this.hobbyDesc = hobbyDesc;
+    }
+
     public Integer getId() {
         return id;
     }

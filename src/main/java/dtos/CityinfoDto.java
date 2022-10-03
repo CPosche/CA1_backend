@@ -29,7 +29,7 @@ public class CityinfoDto implements Serializable, IDTO {
         if (cityinfo.getId() != null)
             this.id = cityinfo.getId();
         this.cityinfoZipcode = cityinfo.getCityinfoZipcode();
-        this.cityinfoCity = getCityinfoCity();
+        this.cityinfoCity = cityinfo.getCityinfoCity();
     }
 
     public static List<CityinfoDto> getDtos(Set<Cityinfo> cityinfos) {

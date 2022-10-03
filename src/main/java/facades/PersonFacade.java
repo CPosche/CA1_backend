@@ -94,21 +94,13 @@ public class PersonFacade {
         return Math.toIntExact((long) query.getSingleResult());
     }
 
-//    public List<PersonDto> getPersonsByZip(CityinfoDto cityinfoDto) {
-//        EntityManager em = getEntityManager();
-//        String cityName = cityinfoDto.getCityinfoCity();
-//        int zipCode = cityinfoDto.getCityinfoZipcode();
-//        TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode AND pc.cityinfoCity = :cityName", Person.class);
-//        query.setParameter("zipCode", zipCode);
-//        query.setParameter("cityName", cityName);
-//        List<Person> personList = query.getResultList();
-//        if (personList == null)
-//            return null;
-//        return PersonDto.getDtos(new LinkedHashSet<>(personList));
-//    }
-
-    public List<PersonDto> getPersonsByZip2(int zipCode, String cityName) {
-        EntityManager em = getEntityManager();
+    public List<PersonDto> getPersonsByZip(CityinfoDto cityinfoDto) {
+        EntityManager em = emf.createEntityManager();
+        String cityName = cityinfoDto.getCityinfoCity();
+        int zipCode = cityinfoDto.getCityinfoZipcode();
+        System.out.println("TESTTESTTESTETS");
+        System.out.println("TESTTESTTESTETS");
+        System.out.println("TESTTESTTESTETS");
         TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode AND pc.cityinfoCity = :cityName", Person.class);
         query.setParameter("zipCode", zipCode);
         query.setParameter("cityName", cityName);
@@ -116,6 +108,7 @@ public class PersonFacade {
         if (personList == null)
             return null;
         return PersonDto.getDtos(new LinkedHashSet<>(personList));
+
     }
 
 

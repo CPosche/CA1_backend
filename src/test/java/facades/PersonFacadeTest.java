@@ -52,7 +52,7 @@ public class PersonFacadeTest {
             testPerson.addPhones(phone);
             Hobby badminton = new Hobby("Badminton", "Vi spiller badminton hver torsdag kl 16");
             Address address = new Address("Solvej 2");
-            Cityinfo cityinfo = new Cityinfo(3450, "Allerød");
+            Cityinfo cityinfo = new Cityinfo(3450, "Alleroed");
             cityinfo.addAddress(address);
             testPerson.addAddress(address);
             testPerson.addHobby(badminton);
@@ -101,18 +101,13 @@ public class PersonFacadeTest {
         assertEquals(2, facade.getPersonsByHobby(1).size());
     }
 
-//    @Test
-//    void getPersonsByZipTest() {
-//        int cityInfoId = 1;
-//        EntityManager em = emf.createEntityManager();
-//        Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
-//        CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
-//        assertEquals(2, facade.getPersonsByZip(cityinfoDto).size());
-//    }
-
     @Test
-    void getPersonsByZipTest2() {
-       assertEquals(2,facade.getPersonsByZip2(3450,"Alleroed").size());
+    void getPersonsByZipTest() {
+        int cityInfoId = 1;
+        EntityManager em = emf.createEntityManager();
+        Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
+        CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
+        assertEquals(2, facade.getPersonsByZip(cityinfoDto).size());
     }
 
     @Test

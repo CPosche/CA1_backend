@@ -55,11 +55,10 @@ public class PersonResource {
         return Response.ok().entity(GSON.toJson(FACADE.getPersonByPhoneNumber(phone))).build();
     }
 
-//    @PUT
-//    @Path("{id}")
-//    public Response editPerson(@PathParam("id") int id, String content){
-//        PersonDto newPerson = GSON.fromJson(content, PersonDto.class);
-//        newPerson.setId(id);
-//        return Response.ok().entity(GSON.toJson(FACADE.editPerson(newPerson))).build();
-//    }
+    @PUT
+    @Path("edit")
+    public Response editPerson(String content){
+        PersonDto newPerson = GSON.fromJson(content, PersonDto.class);
+        return Response.ok().entity(GSON.toJson(FACADE.editPerson(newPerson))).build();
+    }
 }

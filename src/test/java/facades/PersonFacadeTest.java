@@ -50,12 +50,12 @@ public class PersonFacadeTest {
             Person testPerson = new Person("Test", "Person", "Test@Person.dk");
             testPerson.addPhones(phone);
             Hobby badminton = new Hobby("Badminton", "Vi spiller badminton hver torsdag kl 16");
-            Address address = new Address("Solvej 2");
+            Address address = new Address("Solvej 2", "");
             Cityinfo cityinfo = new Cityinfo(3450, "Alleroed");
             cityinfo.addAddress(address);
             testPerson.addAddress(address);
             testPerson.addHobby(badminton);
-            Person testPerson2 = new Person("Test 2", "Person 2", "Test2@Person2.dk");
+            Person testPerson2 = new Person("Lars", "Person 2", "Test2@Person2.dk");
             testPerson2.addHobby(badminton);
             testPerson2.addAddress(address);
             em.persist(testPerson);
@@ -71,15 +71,16 @@ public class PersonFacadeTest {
         assertEquals("Test", facade.getPersonByPhoneNumber(71241337).getPersonFirstname());
     }
 
-//    @Test
-//    void editPersonTest(){
-//        EntityManager em = emf.createEntityManager();
-//        TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
-//        query.setParameter("name", "Test");
-//        PersonDto personDto = new PersonDto(query.getSingleResult());
-//        personDto.setPersonEmail("edited@person.dk");
-//        assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
-//    }
+    @Test
+    void editPersonTest(){
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
+        query.setParameter("name", "Test");
+        Person person = query.getSingleResult();
+        person.setPersonEmail("edited@test.dk");
+        PersonDto personDto = new PersonDto(person);
+        assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
+    }
 
     @Test
     void getCountByZipTest(){

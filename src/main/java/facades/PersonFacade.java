@@ -2,8 +2,7 @@ package facades;
 
 import dtos.CityinfoDto;
 import dtos.PersonDto;
-import entities.Hobby;
-import entities.Person;
+import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -57,10 +56,17 @@ public class PersonFacade {
         person.setPersonEmail(personDto.getPersonEmail());
         if (!personDto.getHobbies().isEmpty())
             personDto.getHobbies().forEach(el -> person.addHobby(el.getId() != null ? new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()) : new Hobby(el.getHobbyName(), el.getHobbyDesc())));
+        if (!personDto.getPhones().isEmpty()){
+            personDto.getPhones().forEach(el -> person.addPhones(el.getId() != null ? new Phone(el.getId(), el.getPhoneNumber(), el.getPhoneDesc()) : new Phone(el.getPhoneNumber(), el.getPhoneDesc())));
+        }
+        person.setFkAddress(new Address(personDto.getFkAddress().getId(), personDto.getFkAddress().getAdressStreet(), personDto.getFkAddress().getAddressInfo()));
+        person.getFkAddress().setFkCityinfo(new Cityinfo(personDto.getFkAddress().getFkCityinfo().getId(), personDto.getFkAddress().getFkCityinfo().getCityinfoZipcode(), personDto.getFkAddress().getFkCityinfo().getCityinfoCity()));
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();
-        return personDto;
+        TypedQuery<PersonDto> query = em.createQuery("select NEW dtos.PersonDto(p) from Person p order by p.id desc", PersonDto.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
     }
 
 

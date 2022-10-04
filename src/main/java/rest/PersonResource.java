@@ -34,6 +34,7 @@ public class PersonResource {
     }
 
     @GET
+    @Path("city")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPersonByZip(@QueryParam("zipcode") int zipcode, @QueryParam("cityname") String cityname){
         Cityinfo cityinfo = new Cityinfo(zipcode, cityname);
@@ -42,7 +43,7 @@ public class PersonResource {
         return Response.ok().entity(GSON.toJson(personList)).build();
     }
     @GET
-    @Path("count")
+    @Path("count/hobby")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getCountByHobbyName(@QueryParam("hobby") String hobby){
         int hobbyCount = FACADE.getCountByHobby(hobby);
@@ -50,7 +51,7 @@ public class PersonResource {
     }
 
     @GET
-    @Path("count")
+    @Path("count/zip")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getCountByZip(@QueryParam("zip") int zip){
         int zipcount = FACADE.getCountByZip(zip);

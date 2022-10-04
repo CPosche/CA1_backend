@@ -35,7 +35,11 @@ public class PersonDto implements Serializable {
     private final Set<PhoneInnerDto> phones = new HashSet<>();
 
     public static List<PersonDto> getDtos(Set<Person> people) {
-        return (List<PersonDto>) new ArrayList(people);
+        List<PersonDto> personDtos = new ArrayList<>();
+        for (Person p : people) {
+            personDtos.add(new PersonDto(p));
+        }
+        return personDtos;
     }
 
     public PersonDto(Person person) {
@@ -43,10 +47,7 @@ public class PersonDto implements Serializable {
         this.personFirstname = person.getPersonFirstname();
         this.personLastname = person.getPersonLastname();
         this.personEmail = person.getPersonEmail();
-        if (person.getFkAddress() == null)
-            this.fkAddress = null;
-        else
-            this.fkAddress = new AddressInnerDto(person.getFkAddress());
+        this.fkAddress = person.getFkAddress() == null ? null : new AddressInnerDto(person.getFkAddress());
         person.getHobbies().forEach(el -> this.hobbies.add(new HobbyInnerDto(el)));
         person.getPhones().forEach(el -> this.phones.add(new PhoneInnerDto(el)));
     }

@@ -35,7 +35,7 @@ public class SuperFacadeTest {
                 Person testPerson = new Person("Test", "Person", "Test@Person.dk");
                 testPerson.addPhones(phone);
                 Hobby badminton = new Hobby("Badminton", "Vi spiller badminton hver torsdag kl 16");
-                Address address = new Address("Solvej 2");
+                Address address = new Address("Solvej 2", "");
                 Cityinfo cityinfo = new Cityinfo(3450, "Alleroed");
                 cityinfo.addAddress(address);
                 testPerson.addAddress(address);

@@ -23,11 +23,6 @@ public class PersonResource {
     private static final PersonFacade FACADE =  PersonFacade.getPersonFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-//    @GET
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public String demo() {
-//        return "{\"msg\":\"Hello World\"}";
-//    }
 
     @POST
     @Produces({MediaType.APPLICATION_JSON})
@@ -41,11 +36,17 @@ public class PersonResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPersonByZip(@QueryParam("zipcode") int zipcode, @QueryParam("cityname") String cityname){
-//        CityinfoDto cityinfoDto = GSON.fromJson(cityinfo, CityinfoDto.class);
         Cityinfo cityinfo = new Cityinfo(zipcode, cityname);
         CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
         List<PersonDto> personList = FACADE.getPersonsByZip(cityinfoDto);
         return Response.ok().entity(GSON.toJson(personList)).build();
+    }
+    @GET
+    @Path("count")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getCountByHobbyName(@QueryParam("hobby") String hobby){
+        int hobbyCount = FACADE.getCountByHobby(hobby);
+        return Response.ok().entity(GSON.toJson(hobbyCount)).build();
     }
 
     @GET

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dtos.CityinfoDto;
 import dtos.PersonDto;
 import entities.Cityinfo;
+import entities.Person;
 import facades.PersonFacade;
 import utils.EMF_Creator;
 
@@ -67,9 +68,12 @@ public class PersonResource {
 
     @PUT
     @Path("edit")
+    @Produces({MediaType.APPLICATION_JSON}) 
+    @Consumes({MediaType.APPLICATION_JSON})
     public Response editPerson(String content){
-        PersonDto newPerson = GSON.fromJson(content, PersonDto.class);
-        return Response.ok().entity(GSON.toJson(FACADE.editPerson(newPerson))).build();
+        Person newPerson = GSON.fromJson(content, Person.class);
+        PersonDto newPersonDto = new PersonDto(newPerson);
+        return Response.ok().entity(GSON.toJson(FACADE.editPerson(newPersonDto))).build();
     }
     @GET
     @Path("all")
@@ -77,5 +81,11 @@ public class PersonResource {
     public Response getAllPersons () {
             return Response.ok().entity(GSON.toJson(FACADE.getAllPersons())).build();
 
+    }
+    @GET
+    @Path("hobby")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonsByHobby(@QueryParam("hobby") String hobby){
+        return Response.ok().entity(GSON.toJson(FACADE.getPersonsByHobby(hobby))).build();
     }
 }

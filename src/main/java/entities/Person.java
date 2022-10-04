@@ -107,6 +107,14 @@ public class Person {
         hobby.getPeople().add(this);
     }
 
+    public void setHobbies(Set<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public void setPhones(Set<Phone> phones) {
+        this.phones = phones;
+    }
+
     public Set<Phone> getPhones() {
         return phones;
     }

@@ -14,5 +14,8 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/CA1/api/persons/count/zip?zip=3450
 Content-Type: application/json
+###
+GET http://localhost:8080/CA1/api/hobby/all
+Content-Type: application/json
 
-
+###

@@ -32,5 +32,8 @@ public class HobbyFacadeTest extends SuperFacadeTest{
         super.setUp(emf);
     }
 
-    
+    @Test
+    void getAllHobbyTest() {
+        assertEquals(1, facade.getAllHobby().size());
+    }
 }

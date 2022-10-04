@@ -82,4 +82,9 @@ public class PersonFacadeTest extends SuperFacadeTest{
     void getCountByHobby(){
         assertEquals(2, facade.getCountByHobby("Badminton"));
     }
+
+    @Test
+    void getAllPersons() {
+        assertEquals(2, facade.getAllPersons().size());
+    }
 }

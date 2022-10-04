@@ -71,4 +71,11 @@ public class PersonResource {
         PersonDto newPerson = GSON.fromJson(content, PersonDto.class);
         return Response.ok().entity(GSON.toJson(FACADE.editPerson(newPerson))).build();
     }
+    @GET
+    @Path("all")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllPersons () {
+            return Response.ok().entity(GSON.toJson(FACADE.getAllPersons())).build();
+
+    }
 }

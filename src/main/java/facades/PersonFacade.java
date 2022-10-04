@@ -64,8 +64,8 @@ public class PersonFacade {
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();
-        TypedQuery<PersonDto> query = em.createQuery("select NEW dtos.PersonDto(p) from Person p order by p.id desc", PersonDto.class);
-        query.setMaxResults(1);
+        TypedQuery<PersonDto> query = em.createQuery("select NEW dtos.PersonDto(p) from Person p where p.id = :id", PersonDto.class);
+        query.setParameter("id", personDto.getId());
         return query.getSingleResult();
     }
 

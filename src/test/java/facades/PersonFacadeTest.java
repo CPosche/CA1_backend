@@ -79,7 +79,7 @@ public class PersonFacadeTest {
         Person person = query.getSingleResult();
         person.setPersonEmail("edited@test.dk");
         PersonDto personDto = new PersonDto(person);
-        assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
+        assertEquals("edited@test.dk", facade.editPerson(personDto).getPersonEmail());
     }
 
     @Test

@@ -52,6 +52,9 @@ Content-Type: application/json
       "id": 1,
       "phoneNumber": 71241337,
       "phoneDesc": "hej"
+    },{
+      "phoneNumber": 31511533,
+      "phoneDesc": "nej"
     }
   ]
 }

@@ -54,13 +54,24 @@ public class PersonFacade {
         person.setPersonFirstname(personDto.getPersonFirstname());
         person.setPersonLastname(personDto.getPersonLastname());
         person.setPersonEmail(personDto.getPersonEmail());
-        if (!personDto.getHobbies().isEmpty())
-            personDto.getHobbies().forEach(el -> person.addHobby(el.getId() != null ? new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()) : new Hobby(el.getHobbyName(), el.getHobbyDesc())));
-        if (!personDto.getPhones().isEmpty()){
-            personDto.getPhones().forEach(el -> person.addPhones(el.getId() != null ? new Phone(el.getId(), el.getPhoneNumber(), el.getPhoneDesc()) : new Phone(el.getPhoneNumber(), el.getPhoneDesc())));
+        if (!personDto.getHobbies().isEmpty()) {
+            for(PersonDto.HobbyInnerDto el : personDto.getHobbies()){
+                if (!person.getHobbies().contains(new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()))){
+                    person.addHobby(new Hobby(el.getHobbyName(), el.getHobbyDesc()));
+                }
+            }
         }
-        person.setFkAddress(new Address(personDto.getFkAddress().getId(), personDto.getFkAddress().getAdressStreet(), personDto.getFkAddress().getAddressInfo()));
-        person.getFkAddress().setFkCityinfo(new Cityinfo(personDto.getFkAddress().getFkCityinfo().getId(), personDto.getFkAddress().getFkCityinfo().getCityinfoZipcode(), personDto.getFkAddress().getFkCityinfo().getCityinfoCity()));
+        if (!personDto.getPhones().isEmpty()) {
+            for(PersonDto.PhoneInnerDto el : personDto.getPhones()){
+                if (!person.getPhones().contains(new Phone(el.getId(), el.getPhoneNumber(), el.getPhoneDesc()))){
+                    person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
+                }
+            }
+        }
+        if (personDto.getFkAddress() != null) {
+            person.setFkAddress(new Address(personDto.getFkAddress().getId(), personDto.getFkAddress().getAdressStreet(), personDto.getFkAddress().getAddressInfo()));
+            person.getFkAddress().setFkCityinfo(new Cityinfo(personDto.getFkAddress().getFkCityinfo().getId(), personDto.getFkAddress().getFkCityinfo().getCityinfoZipcode(), personDto.getFkAddress().getFkCityinfo().getCityinfoCity()));
+        }
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();

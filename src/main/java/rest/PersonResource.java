@@ -4,11 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.CityinfoDto;
 import dtos.PersonDto;
-import dtos.RenameMeDTO;
 import entities.Cityinfo;
 import facades.PersonFacade;
 import utils.EMF_Creator;
-import facades.FacadeExample;
+
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -57,10 +56,9 @@ public class PersonResource {
     }
 
     @PUT
-    @Path("{id}")
-    public Response editPerson(@PathParam("id") int id, String content){
+    @Path("edit")
+    public Response editPerson(String content){
         PersonDto newPerson = GSON.fromJson(content, PersonDto.class);
-        newPerson.setId(id);
         return Response.ok().entity(GSON.toJson(FACADE.editPerson(newPerson))).build();
     }
 }

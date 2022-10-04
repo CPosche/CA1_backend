@@ -40,8 +40,10 @@ public class Address {
         this.addressInfo = addressInfo;
     }
 
-    public Address(String adressStreet) {
+    public Address(Integer id, String adressStreet, String addressInfo) {
+        this.id = id;
         this.adressStreet = adressStreet;
+        this.addressInfo = addressInfo;
     }
 
     public Integer getId() {

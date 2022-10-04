@@ -1,7 +1,7 @@
 package facades;
 
 import dtos.AddressDto;
-import dtos.PersonDto;
+import dtos.HobbyDto;
 import entities.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,25 +13,24 @@ import javax.persistence.EntityManagerFactory;
 
 import static junit.framework.Assert.assertEquals;
 
-public class AddressFacadeTest extends SuperFacadeTest{
+public class HobbyFacadeTest extends SuperFacadeTest{
 
     private static EntityManagerFactory emf;
-    private static AddressFacade facade;
+    private static HobbyFacade facade;
 
-    public AddressFacadeTest() {
+    public HobbyFacadeTest() {
     }
 
     @BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-        facade = AddressFacade.getAddressFacade(emf);
+        facade = HobbyFacade.getHobbyFacade(emf);
     }
 
     @BeforeEach
     public void setUp() {
         super.setUp(emf);
     }
-
 
     
 }

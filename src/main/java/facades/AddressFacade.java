@@ -39,14 +39,6 @@ public class AddressFacade {
     public AddressDto deleteAddress(int id){
         EntityManager em = getEntityManager();
         Address address = em.find(Address.class, id);
-        TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress a where a.id = :id", Person.class);
-        List<Person> persons = query.getResultList();
-        em.getTransaction().begin();
-        for (Person person : persons) {
-            person.setFkAddress(null);
-            em.persist(person);
-        }
-        em.getTransaction().commit();
         em.getTransaction().begin();
         em.remove(address);
         em.getTransaction().commit();

@@ -20,7 +20,7 @@ GET http://localhost:8080/CA1/api/persons/all/
 Content-Type: application/json
 
 ###
-DELETE http://localhost:8080/CA1/api/addresses/delete/3
+DELETE http://localhost:8080/CA1/api/addresses/delete/1
 Content-Type: application/json
 
 

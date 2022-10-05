@@ -7,6 +7,8 @@ import entities.Person;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class AddressFacade {
 
@@ -34,6 +36,14 @@ public class AddressFacade {
         return emf.createEntityManager();
     }
 
+    public AddressDto deleteAddress(int id){
+        EntityManager em = getEntityManager();
+        Address address = em.find(Address.class, id);
+        em.getTransaction().begin();
+        em.remove(address);
+        em.getTransaction().commit();
+        return new AddressDto(address);
+    }
 
 
 }

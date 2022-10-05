@@ -23,15 +23,12 @@ public class AddressDto implements Serializable, IDTO {
     private String adressStreet;
     @Size(max = 45)
     private String addressInfo;
-    private List<PersonDto> people;
 
     public AddressDto(Address address) {
         if (address.getId() != null)
             this.id = address.getId();
         this.adressStreet = address.getAdressStreet();
         this.addressInfo = address.getAddressInfo();
-        if (!address.getPeople().isEmpty())
-            this.people = PersonDto.getDtos(address.getPeople());
     }
 
     public static List<AddressDto> getDtos(Set<Address> addresses) {

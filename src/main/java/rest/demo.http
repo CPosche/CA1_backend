@@ -61,5 +61,7 @@ Content-Type: application/json
 ###
 
 
+DELETE http://localhost:8080/CA1/api/addresses/delete/1
+Content-Type: application/json
 
 

@@ -7,6 +7,7 @@ import facades.HobbyFacade;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,7 +23,7 @@ public class HobbyResource {
     @GET
     @Path("/all")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllHobby(){
+    public Response getAllHobby() throws EntityNotFoundException  {
         List<HobbyDto> hobbyList = FACADE.getAllHobby();
         return Response.ok().entity(GSON.toJson(hobbyList)).build();
     }

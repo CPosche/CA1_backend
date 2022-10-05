@@ -6,10 +6,13 @@ import dtos.CityinfoDto;
 import dtos.PersonDto;
 import entities.Cityinfo;
 import entities.Person;
+import errorhandling.EntityNotFoundExceptionMapper;
+import errorhandling.GenericException;
 import facades.PersonFacade;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,7 +31,7 @@ public class PersonResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response createPerson(String jsonInput) {
+    public Response createPerson(String jsonInput) throws EntityNotFoundException {
         PersonDto personDto = GSON.fromJson(jsonInput, PersonDto.class);
         PersonDto newPerson = FACADE.createPerson(personDto);
         return Response.ok().entity(GSON.toJson(newPerson)).build();
@@ -37,7 +40,7 @@ public class PersonResource {
     @GET
     @Path("city")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPersonByZip(@QueryParam("zipcode") int zipcode, @QueryParam("cityname") String cityname){
+    public Response getPersonByZip(@QueryParam("zipcode") int zipcode, @QueryParam("cityname") String cityname) throws EntityNotFoundException {
         Cityinfo cityinfo = new Cityinfo(zipcode, cityname);
         CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
         List<PersonDto> personList = FACADE.getPersonsByZip(cityinfoDto);
@@ -46,7 +49,7 @@ public class PersonResource {
     @GET
     @Path("count/hobby")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getCountByHobbyName(@QueryParam("hobby") String hobby){
+    public Response getCountByHobbyName(@QueryParam("hobby") String hobby) throws EntityNotFoundException{
         int hobbyCount = FACADE.getCountByHobby(hobby);
         return Response.ok().entity(GSON.toJson(hobbyCount)).build();
     }
@@ -54,7 +57,7 @@ public class PersonResource {
     @GET
     @Path("count/zip")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getCountByZip(@QueryParam("zip") int zip){
+    public Response getCountByZip(@QueryParam("zip") int zip) throws EntityNotFoundException {
         int zipcount = FACADE.getCountByZip(zip);
         return Response.ok().entity(GSON.toJson(zipcount)).build();
     }
@@ -62,7 +65,7 @@ public class PersonResource {
     @GET
     @Path("phone")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPersonByPhone(@QueryParam("phone") int phone){
+    public Response getPersonByPhone(@QueryParam("phone") int phone) throws EntityNotFoundException {
         return Response.ok().entity(GSON.toJson(FACADE.getPersonByPhoneNumber(phone))).build();
     }
 
@@ -70,7 +73,7 @@ public class PersonResource {
     @Path("edit")
     @Produces({MediaType.APPLICATION_JSON}) 
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response editPerson(String content){
+    public Response editPerson(String content) throws EntityNotFoundException {
         Person newPerson = GSON.fromJson(content, Person.class);
         PersonDto newPersonDto = new PersonDto(newPerson);
         return Response.ok().entity(GSON.toJson(FACADE.editPerson(newPersonDto))).build();
@@ -78,14 +81,14 @@ public class PersonResource {
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllPersons () {
+    public Response getAllPersons () throws EntityNotFoundException {
             return Response.ok().entity(GSON.toJson(FACADE.getAllPersons())).build();
 
     }
     @GET
     @Path("hobby")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPersonsByHobby(@QueryParam("hobby") String hobby){
+    public Response getPersonsByHobby(@QueryParam("hobby") String hobby) throws EntityNotFoundException {
         return Response.ok().entity(GSON.toJson(FACADE.getPersonsByHobby(hobby))).build();
     }
 }

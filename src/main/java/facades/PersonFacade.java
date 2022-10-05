@@ -1,8 +1,8 @@
 package facades;
 
+import dtos.CityinfoDto;
 import dtos.PersonDto;
-import entities.Cityinfo;
-import entities.Person;
+import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -54,15 +54,35 @@ public class PersonFacade {
         person.setPersonFirstname(personDto.getPersonFirstname());
         person.setPersonLastname(personDto.getPersonLastname());
         person.setPersonEmail(personDto.getPersonEmail());
+        if (!personDto.getHobbies().isEmpty()) {
+            for(PersonDto.HobbyInnerDto el : personDto.getHobbies()){
+                if (!person.getHobbies().contains(new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()))){
+                    person.addHobby(new Hobby(el.getHobbyName(), el.getHobbyDesc()));
+                }
+            }
+        }
+        if (!personDto.getPhones().isEmpty()) {
+            for(PersonDto.PhoneInnerDto el : personDto.getPhones()){
+                if (!person.getPhones().contains(new Phone(el.getId(), el.getPhoneNumber(), el.getPhoneDesc()))){
+                    person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
+                }
+            }
+        }
+        if (personDto.getFkAddress() != null) {
+            person.setFkAddress(new Address(personDto.getFkAddress().getId(), personDto.getFkAddress().getAdressStreet(), personDto.getFkAddress().getAddressInfo()));
+            person.getFkAddress().setFkCityinfo(new Cityinfo(personDto.getFkAddress().getFkCityinfo().getId(), personDto.getFkAddress().getFkCityinfo().getCityinfoZipcode(), personDto.getFkAddress().getFkCityinfo().getCityinfoCity()));
+        }
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();
-        return personDto;
+        TypedQuery<PersonDto> query = em.createQuery("select NEW dtos.PersonDto(p) from Person p where p.id = :id", PersonDto.class);
+        query.setParameter("id", personDto.getId());
+        return query.getSingleResult();
     }
 
 
     public int getCountByZip(int zip) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         Query query = em.createQuery("select count(p) from Person p join p.fkAddress a join a.fkCityinfo ci where ci.cityinfoZipcode = :zip");
         query.setParameter("zip", zip);
         return Math.toIntExact((long) query.getSingleResult());
@@ -76,37 +96,45 @@ public class PersonFacade {
         em.getTransaction().commit();
         return new PersonDto(person);
     }
-    public List<PersonDto> getPersonsByHobby(int hobbyID){
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Person> query = em.createQuery("select DISTINCT p from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID", Person.class);
-        query.setParameter("hobbyID", hobbyID);
+
+    public List<PersonDto> getAllPersons() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Person> query = em.createQuery("select p from Person p", Person.class);
+        List<Person> personList = query.getResultList();
+        if (personList == null) {
+            return null;
+        }
+        return PersonDto.getDtos(new LinkedHashSet<>(personList));
+    }
+
+    public List<PersonDto> getPersonsByHobby(String hobbyName){
+        EntityManager em = getEntityManager();
+        TypedQuery<Person> query = em.createQuery("select DISTINCT p from Person p join p.hobbies ph join ph.people php where ph.hobbyName = :hobbyName", Person.class);
+        query.setParameter("hobbyName", hobbyName);
         List<Person> persons = query.getResultList();
         if (persons == null)
             return null;
         return PersonDto.getDtos(new LinkedHashSet<>(persons));
     }
 
-    public int getCounByHobby(int hobbyID){
-        EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("select count(distinct p) from Person p join p.hobbies ph join ph.people php where ph.id = :hobbyID");
-        query.setParameter("hobbyID", hobbyID);
+    public int getCountByHobby(String hobbyName){
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("select count(distinct p) from Person p join p.hobbies ph join ph.people php where ph.hobbyName = :hobbyName");
+        query.setParameter("hobbyName", hobbyName);
         return Math.toIntExact((long) query.getSingleResult());
     }
 
-    public List<PersonDto> getPersonsByZip(Cityinfo cityinfo) {
+    public List<PersonDto> getPersonsByZip(CityinfoDto cityinfoDto) {
         EntityManager em = emf.createEntityManager();
-        String cityName = cityinfo.getCityinfoCity();
-        int zipCode = cityinfo.getCityinfoZipcode();
-        TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode", Person.class);
+        String cityName = cityinfoDto.getCityinfoCity();
+        int zipCode = cityinfoDto.getCityinfoZipcode();
+        TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode AND pc.cityinfoCity = :cityName", Person.class);
         query.setParameter("zipCode", zipCode);
+        query.setParameter("cityName", cityName);
         List<Person> personList = query.getResultList();
         if (personList == null)
             return null;
         return PersonDto.getDtos(new LinkedHashSet<>(personList));
 
     }
-
-
-
-
 }

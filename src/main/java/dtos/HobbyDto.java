@@ -24,7 +24,7 @@ public class HobbyDto implements Serializable, IDTO {
     @Size(max = 45)
     @NotNull
     private String hobbyDesc;
-    private List<PersonDto> people;
+//    private List<PersonDto> people;
 
 
     public HobbyDto (Hobby hobby) {
@@ -32,11 +32,15 @@ public class HobbyDto implements Serializable, IDTO {
             this.id = hobby.getId();
         this.hobbyDesc = hobby.getHobbyDesc();
         this.hobbyName = hobby.getHobbyName();
-        if(!hobby.getPeople().isEmpty())
-            this.people = PersonDto.getDtos(hobby.getPeople());
+//        if(!hobby.getPeople().isEmpty())
+//            this.people = PersonDto.getDtos(hobby.getPeople());
     }
+
     public static List<HobbyDto> getDtos(Set<Hobby> hobbies) {
-        List<HobbyDto> hobbyDtos = new ArrayList(hobbies);
+        List<HobbyDto> hobbyDtos = new ArrayList<>();
+        for (Hobby hobby : hobbies){
+            hobbyDtos.add(new HobbyDto(hobby));
+        }
         return hobbyDtos;
     }
 }

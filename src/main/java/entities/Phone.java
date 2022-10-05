@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Table(name = "phone")
@@ -65,5 +66,24 @@ public class Phone {
     public Phone(Integer phoneNumber, String phoneDesc) {
         this.phoneNumber = phoneNumber;
         this.phoneDesc = phoneDesc;
+    }
+
+    public Phone(Integer id, Integer phoneNumber, String phoneDesc){
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.phoneDesc = phoneDesc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Phone)) return false;
+        Phone phone = (Phone) o;
+        return Objects.equals(getId(), phone.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

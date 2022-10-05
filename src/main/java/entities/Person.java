@@ -46,7 +46,7 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "fk_hobby_id"))
     private Set<Hobby> hobbies = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "fkPerson", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "fkPerson", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Phone> phones = new LinkedHashSet<>();
 
     public Person() {
@@ -105,6 +105,14 @@ public class Person {
     public void addHobby(Hobby hobby) {
         this.hobbies.add(hobby);
         hobby.getPeople().add(this);
+    }
+
+    public void setHobbies(Set<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public void setPhones(Set<Phone> phones) {
+        this.phones = phones;
     }
 
     public Set<Phone> getPhones() {

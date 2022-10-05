@@ -27,6 +27,11 @@ public class Cityinfo {
     @OneToMany(mappedBy = "fkCityinfo", cascade = CascadeType.PERSIST)
     private Set<Address> addresses = new LinkedHashSet<>();
 
+    public Cityinfo(Integer id, Integer cityinfoZipcode, String cityinfoCity) {
+        this.id = id;
+        this.cityinfoZipcode = cityinfoZipcode;
+        this.cityinfoCity = cityinfoCity;
+    }
 
 
     public Integer getId() {

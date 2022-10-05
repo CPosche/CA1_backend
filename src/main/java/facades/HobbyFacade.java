@@ -1,11 +1,11 @@
 package facades;
 
-import dtos.AddressDto;
 import dtos.HobbyDto;
 import dtos.PersonDto;
-import entities.Address;
+import dtos.PhoneDto;
 import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,13 +13,13 @@ import javax.persistence.TypedQuery;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-public class AddressFacade {
+public class HobbyFacade {
 
-    private static AddressFacade instance;
+    private static HobbyFacade instance;
     private static EntityManagerFactory emf;
 
     //Private Constructor to ensure Singleton
-    private AddressFacade() {}
+    private HobbyFacade() {}
 
 
     /**
@@ -27,10 +27,10 @@ public class AddressFacade {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static AddressFacade getAddressFacade(EntityManagerFactory _emf) {
+    public static HobbyFacade getHobbyFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new AddressFacade();
+            instance = new HobbyFacade();
         }
         return instance;
     }
@@ -39,14 +39,13 @@ public class AddressFacade {
         return emf.createEntityManager();
     }
 
-    public AddressDto deleteAddress(int id){
+
+    public List<HobbyDto> getAllHobby(){
         EntityManager em = getEntityManager();
-        Address address = em.find(Address.class, id);
-        em.getTransaction().begin();
-        em.remove(address);
-        em.getTransaction().commit();
-        return new AddressDto(address);
+        TypedQuery<Hobby> query = em.createQuery("SELECT p FROM Hobby p", Hobby.class);
+        List<Hobby> hobbies = query.getResultList();
+        if (hobbies == null)
+            return null;
+        return HobbyDto.getDtos(new LinkedHashSet<>(hobbies));
     }
-
-
 }

@@ -1,6 +1,6 @@
 package facades;
 
-import dtos.HobbyDto;
+import dtos.CityinfoDto;
 import dtos.PersonDto;
 import entities.*;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-public class PersonFacadeTest {
+public class PersonFacadeTest extends SuperFacadeTest{
 
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
@@ -31,39 +31,7 @@ public class PersonFacadeTest {
 
     @BeforeEach
     public void setUp() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE phone AUTO_INCREMENT = 1").executeUpdate();
-            em.createNativeQuery("DELETE FROM hobby_has_person").executeUpdate();
-            em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE hobby AUTO_INCREMENT = 1").executeUpdate();
-            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE person AUTO_INCREMENT = 1").executeUpdate();
-            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE address AUTO_INCREMENT = 1").executeUpdate();
-            em.createNamedQuery("Cityinfo.deleteAllRows").executeUpdate();
-            em.createNativeQuery("ALTER TABLE cityinfo AUTO_INCREMENT = 1").executeUpdate();
-
-            Phone phone = new Phone(71241337, "Ny telefon");
-            Person testPerson = new Person("Test", "Person", "Test@Person.dk");
-            testPerson.addPhones(phone);
-            Hobby badminton = new Hobby("Badminton", "Vi spiller badminton hver torsdag kl 16");
-            Address address = new Address("Solvej 2");
-            Cityinfo cityinfo = new Cityinfo(3450, "Allerød");
-            cityinfo.addAddress(address);
-            testPerson.addAddress(address);
-            testPerson.addHobby(badminton);
-            Person testPerson2 = new Person("Test 2", "Person 2", "Test2@Person2.dk");
-            testPerson2.addHobby(badminton);
-            testPerson2.addAddress(address);
-            em.persist(testPerson);
-            em.persist(testPerson2);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+      super.setUp(emf);
     }
 
     @Test
@@ -76,9 +44,10 @@ public class PersonFacadeTest {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
         query.setParameter("name", "Test");
-        PersonDto personDto = new PersonDto(query.getSingleResult());
-        personDto.setPersonEmail("edited@person.dk");
-        assertEquals("Test", facade.editPerson(personDto).getPersonFirstname());
+        Person person = query.getSingleResult();
+        person.setPersonEmail("edited@test.dk");
+        PersonDto personDto = new PersonDto(person);
+        assertEquals("edited@test.dk", facade.editPerson(personDto).getPersonEmail());
     }
 
     @Test
@@ -97,7 +66,7 @@ public class PersonFacadeTest {
 
     @Test
     void getPersonsByHobbyTest() {
-        assertEquals(2, facade.getPersonsByHobby(1).size());
+        assertEquals(2, facade.getPersonsByHobby("Badminton").size());
     }
 
     @Test
@@ -105,11 +74,17 @@ public class PersonFacadeTest {
         int cityInfoId = 1;
         EntityManager em = emf.createEntityManager();
         Cityinfo cityinfo = em.find(Cityinfo.class, cityInfoId);
-        assertEquals(2, facade.getPersonsByZip(cityinfo).size());
+        CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
+        assertEquals(2, facade.getPersonsByZip(cityinfoDto).size());
     }
 
     @Test
     void getCountByHobby(){
-        assertEquals(2, facade.getCounByHobby(1));
+        assertEquals(2, facade.getCountByHobby("Badminton"));
+    }
+
+    @Test
+    void getAllPersons() {
+        assertEquals(2, facade.getAllPersons().size());
     }
 }

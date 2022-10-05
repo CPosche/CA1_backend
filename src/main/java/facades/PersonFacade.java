@@ -128,9 +128,6 @@ public class PersonFacade {
         EntityManager em = emf.createEntityManager();
         String cityName = cityinfoDto.getCityinfoCity();
         int zipCode = cityinfoDto.getCityinfoZipcode();
-        System.out.println("TESTTESTTESTETS");
-        System.out.println("TESTTESTTESTETS");
-        System.out.println("TESTTESTTESTETS");
         TypedQuery<Person> query = em.createQuery("select p from Person p join p.fkAddress pa join pa.fkCityinfo pc where pc.cityinfoZipcode = :zipCode AND pc.cityinfoCity = :cityName", Person.class);
         query.setParameter("zipCode", zipCode);
         query.setParameter("cityName", cityName);

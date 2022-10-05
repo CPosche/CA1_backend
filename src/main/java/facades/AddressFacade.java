@@ -1,13 +1,16 @@
 package facades;
 
 import dtos.AddressDto;
+import dtos.HobbyDto;
 import dtos.PersonDto;
 import entities.Address;
+import entities.Hobby;
 import entities.Person;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class AddressFacade {

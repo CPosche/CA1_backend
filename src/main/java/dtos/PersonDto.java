@@ -8,10 +8,7 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A DTO for the {@link entities.Person} entity
@@ -50,6 +47,19 @@ public class PersonDto implements Serializable {
         this.fkAddress = person.getFkAddress() == null ? null : new AddressInnerDto(person.getFkAddress());
         person.getHobbies().forEach(el -> this.hobbies.add(new HobbyInnerDto(el)));
         person.getPhones().forEach(el -> this.phones.add(new PhoneInnerDto(el)));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PersonDto)) return false;
+        PersonDto personDto = (PersonDto) o;
+        return getId().equals(personDto.getId()) && getPersonFirstname().equals(personDto.getPersonFirstname()) && getPersonLastname().equals(personDto.getPersonLastname()) && getPersonEmail().equals(personDto.getPersonEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPersonFirstname(), getPersonLastname(), getPersonEmail());
     }
 
     /**

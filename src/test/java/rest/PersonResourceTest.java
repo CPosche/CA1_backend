@@ -152,21 +152,25 @@ public class PersonResourceTest extends SuperResourceTest{
     }
 
 
-    //skal finpudses
     @Test
     public void getCountByHobby() throws Exception {
-//        GET http://localhost:8080/CA1/api/persons/count/hobby?hobby=badminton
-        int  count;
-        count = given()
-                .contentType(ContentType.JSON)
-                .queryParam("hobby","badminton")
-                .when()
-                .get("/persons/count/hobby")
-                .then()
-                .extract().body().jsonPath().getInt("");
-
-            int result = 2;
-        assertThat(count, equalTo(result));
+        given()
+                .contentType("application/json")
+                .queryParam("hobby", "badminton")
+                .get("/persons/count/hobby").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body(equalTo("2"));
+    }
+    @Test
+    public void getCountByZip() throws Exception {
+        given()
+                .contentType("application/json")
+                .queryParam("zip", "3450")
+                .get("/persons/count/zip").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body(equalTo("2"));
     }
 
     @Test

@@ -1,8 +1,10 @@
 package facades;
 
 import dtos.AddressDto;
+import dtos.PersonDto;
 import dtos.PhoneDto;
 import entities.Address;
+import entities.Hobby;
 import entities.Phone;
 
 import javax.persistence.EntityManager;
@@ -32,6 +34,17 @@ public class PhoneFacade {
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    public boolean checkPhoneExists(PersonDto.PhoneInnerDto phoneDto){
+        EntityManager em = getEntityManager();
+        Phone phone = em.find(Phone.class, phoneDto.getId());
+        return phone.equals(new Phone(phoneDto.getId(), phoneDto.getPhoneNumber(), phoneDto.getPhoneDesc()));
+    }
+
+    public Phone getPhone(PersonDto.PhoneInnerDto phoneDto){
+        EntityManager em = getEntityManager();
+        return em.find(Phone.class, phoneDto.getId());
     }
 
 

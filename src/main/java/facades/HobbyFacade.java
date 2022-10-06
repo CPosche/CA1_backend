@@ -48,4 +48,15 @@ public class HobbyFacade {
             return null;
         return HobbyDto.getDtos(new LinkedHashSet<>(hobbies));
     }
+
+    public boolean checkHobbyExists(PersonDto.HobbyInnerDto hobbyDto){
+        EntityManager em = getEntityManager();
+        Hobby hobby = em.find(Hobby.class, hobbyDto.getId());
+        return hobby.equals(new Hobby(hobbyDto.getId(), hobbyDto.getHobbyName(), hobbyDto.getHobbyDesc()));
+    }
+
+    public Hobby getHobby(PersonDto.HobbyInnerDto hobbyDto){
+        EntityManager em = getEntityManager();
+        return em.find(Hobby.class, hobbyDto.getId());
+    }
 }

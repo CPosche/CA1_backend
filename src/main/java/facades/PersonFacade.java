@@ -57,6 +57,9 @@ public class PersonFacade {
         if (!personDto.getHobbies().isEmpty()) {
             for(PersonDto.HobbyInnerDto el : personDto.getHobbies()){
                 if (!person.getHobbies().contains(new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()))){
+                    if (HobbyFacade.getHobbyFacade(emf).checkHobbyExists(el)){
+                        person.addHobby(HobbyFacade.getHobbyFacade(emf).getHobby(el));
+                    }
                     person.addHobby(new Hobby(el.getHobbyName(), el.getHobbyDesc()));
                 }
             }
@@ -64,13 +67,22 @@ public class PersonFacade {
         if (!personDto.getPhones().isEmpty()) {
             for(PersonDto.PhoneInnerDto el : personDto.getPhones()){
                 if (!person.getPhones().contains(new Phone(el.getId(), el.getPhoneNumber(), el.getPhoneDesc()))){
-                    person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
+                    if(PhoneFacade.getPhoneFacade(emf).checkPhoneExists(el)){
+                        person.addPhones(PhoneFacade.getPhoneFacade(emf).getPhone(el));
+                    }else{
+                        person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
+                    }
                 }
             }
         }
         if (personDto.getFkAddress() != null) {
-            person.setFkAddress(new Address(personDto.getFkAddress().getId(), personDto.getFkAddress().getAdressStreet(), personDto.getFkAddress().getAddressInfo()));
-            person.getFkAddress().setFkCityinfo(new Cityinfo(personDto.getFkAddress().getFkCityinfo().getId(), personDto.getFkAddress().getFkCityinfo().getCityinfoZipcode(), personDto.getFkAddress().getFkCityinfo().getCityinfoCity()));
+            if (AddressFacade.getAddressFacade(emf).checkAddressExists(personDto.getFkAddress())){
+                person.addAddress(AddressFacade.getAddressFacade(emf).getAddress(personDto.getFkAddress()));
+            }else{
+                Address address = new Address(personDto.getFkAddress().getAdressStreet(), personDto.getFkAddress().getAddressInfo());
+                person.addAddress(address);
+                person.getFkAddress().getFkCityinfo().addAddress(address);
+            }
         }
         em.getTransaction().begin();
         em.persist(person);

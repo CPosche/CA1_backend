@@ -1,7 +1,9 @@
 package facades;
 
 import dtos.CityinfoDto;
+import dtos.PersonDto;
 import entities.Cityinfo;
+import entities.Hobby;
 import org.json.JSONArray;
 
 import javax.persistence.EntityManager;
@@ -70,6 +72,17 @@ public class CityInfoFacade {
         }
         return cityinfoDtoList;
 
+    }
+
+    public boolean checkCityExists(PersonDto.AddressInnerDto.CityinfoInnerDto cityDto){
+        EntityManager em = getEntityManager();
+        Cityinfo cityinfo = em.find(Cityinfo.class, cityDto.getId());
+        return cityinfo.equals(new Cityinfo(cityDto.getId(), cityDto.getCityinfoZipcode(), cityDto.getCityinfoCity()));
+    }
+
+    public Cityinfo getCity(PersonDto.AddressInnerDto.CityinfoInnerDto cityDto){
+        EntityManager em = getEntityManager();
+        return em.find(Cityinfo.class, cityDto.getId());
     }
 
 }

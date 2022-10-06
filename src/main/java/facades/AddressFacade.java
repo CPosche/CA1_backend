@@ -48,5 +48,16 @@ public class AddressFacade {
         return new AddressDto(address);
     }
 
+    public boolean checkAddressExists(PersonDto.AddressInnerDto addressDto){
+        EntityManager em = getEntityManager();
+        Address address = em.find(Address.class, addressDto.getId());
+        return address.equals(new Address(addressDto.getId(), addressDto.getAdressStreet(), addressDto.getAddressInfo()));
+    }
+
+    public Address getAddress(PersonDto.AddressInnerDto addressDto){
+        EntityManager em = getEntityManager();
+        return em.find(Address.class, addressDto.getId());
+    }
+
 
 }

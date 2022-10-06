@@ -86,6 +86,6 @@ public class PersonFacadeTest extends SuperFacadeTest{
 
     @Test
     void getAllPersons() {
-        assertEquals(2, facade.getAllPersons().size());
+        assertEquals(3, facade.getAllPersons().size());
     }
 }

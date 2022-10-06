@@ -17,11 +17,11 @@ public class PersonFacade {
     private static EntityManagerFactory emf;
 
     //Private Constructor to ensure Singleton
-    private PersonFacade() {}
+    private PersonFacade() {
+    }
 
 
     /**
-     *
      * @param _emf
      * @return an instance of this facade class.
      */
@@ -48,37 +48,42 @@ public class PersonFacade {
         return new PersonDto(person);
     }
 
-    public PersonDto editPerson(PersonDto personDto){
+    public PersonDto editPerson(PersonDto personDto) {
         EntityManager em = getEntityManager();
         Person person = em.find(Person.class, personDto.getId());
         person.setPersonFirstname(personDto.getPersonFirstname());
         person.setPersonLastname(personDto.getPersonLastname());
         person.setPersonEmail(personDto.getPersonEmail());
         if (!personDto.getHobbies().isEmpty()) {
-            for(PersonDto.HobbyInnerDto el : personDto.getHobbies()){
-                if (!person.getHobbies().contains(new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()))){
-                    if (HobbyFacade.getHobbyFacade(emf).checkHobbyExists(el)){
-                        person.addHobby(HobbyFacade.getHobbyFacade(emf).getHobby(el));
+            for (PersonDto.HobbyInnerDto el : personDto.getHobbies()) {
+                if (!person.getHobbies().contains(new Hobby(el.getId(), el.getHobbyName(), el.getHobbyDesc()))) {
+                    if (el.getId() != null) {
+                        if (HobbyFacade.getHobbyFacade(emf).checkHobbyExists(el)) {
+                            person.addHobby(HobbyFacade.getHobbyFacade(emf).getHobby(el));
+                        } else {
+                            person.addHobby(new Hobby(el.getHobbyName(), el.getHobbyDesc()));
+                        }
                     }
-                    person.addHobby(new Hobby(el.getHobbyName(), el.getHobbyDesc()));
                 }
             }
         }
         if (!personDto.getPhones().isEmpty()) {
-            for(PersonDto.PhoneInnerDto el : personDto.getPhones()){
-                if (!person.getPhones().contains(new Phone(el.getId(), el.getPhoneNumber(), el.getPhoneDesc()))){
-                    if(PhoneFacade.getPhoneFacade(emf).checkPhoneExists(el)){
-                        person.addPhones(PhoneFacade.getPhoneFacade(emf).getPhone(el));
-                    }else{
-                        person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
+            for (PersonDto.PhoneInnerDto el : personDto.getPhones()) {
+                if (!person.getPhones().contains(new Phone(el.getId(), el.getPhoneNumber(), el.getPhoneDesc()))) {
+                    if (el.getId() != null) {
+                        if (PhoneFacade.getPhoneFacade(emf).checkPhoneExists(el)) {
+                            person.addPhones(PhoneFacade.getPhoneFacade(emf).getPhone(el));
+                        } else {
+                            person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
+                        }
                     }
                 }
             }
         }
         if (personDto.getFkAddress() != null) {
-            if (AddressFacade.getAddressFacade(emf).checkAddressExists(personDto.getFkAddress())){
+            if (AddressFacade.getAddressFacade(emf).checkAddressExists(personDto.getFkAddress())) {
                 person.addAddress(AddressFacade.getAddressFacade(emf).getAddress(personDto.getFkAddress()));
-            }else{
+            } else {
                 Address address = new Address(personDto.getFkAddress().getAdressStreet(), personDto.getFkAddress().getAddressInfo());
                 person.addAddress(address);
                 person.getFkAddress().getFkCityinfo().addAddress(address);
@@ -119,7 +124,7 @@ public class PersonFacade {
         return PersonDto.getDtos(new LinkedHashSet<>(personList));
     }
 
-    public List<PersonDto> getPersonsByHobby(String hobbyName){
+    public List<PersonDto> getPersonsByHobby(String hobbyName) {
         EntityManager em = getEntityManager();
         TypedQuery<Person> query = em.createQuery("select DISTINCT p from Person p join p.hobbies ph join ph.people php where ph.hobbyName = :hobbyName", Person.class);
         query.setParameter("hobbyName", hobbyName);
@@ -129,7 +134,7 @@ public class PersonFacade {
         return PersonDto.getDtos(new LinkedHashSet<>(persons));
     }
 
-    public int getCountByHobby(String hobbyName){
+    public int getCountByHobby(String hobbyName) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("select count(distinct p) from Person p join p.hobbies ph join ph.people php where ph.hobbyName = :hobbyName");
         query.setParameter("hobbyName", hobbyName);

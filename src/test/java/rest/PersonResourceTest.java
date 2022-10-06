@@ -192,7 +192,6 @@ public class PersonResourceTest extends SuperResourceTest{
 
     }
     @Test
-    @Disabled
     public void editPerson() {
         Person p1 = super.testPerson;
         p1.setPersonEmail("NyTestEmail@NyTestEmail.com");

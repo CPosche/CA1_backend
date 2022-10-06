@@ -63,6 +63,8 @@ public class PersonFacade {
                         } else {
                             person.addHobby(new Hobby(el.getHobbyName(), el.getHobbyDesc()));
                         }
+                    }else{
+                        person.addHobby(new Hobby(el.getHobbyName(), el.getHobbyDesc()));
                     }
                 }
             }

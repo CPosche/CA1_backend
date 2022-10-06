@@ -78,6 +78,8 @@ public class PersonFacade {
                         } else {
                             person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
                         }
+                    }else{
+                        person.addPhones(new Phone(el.getPhoneNumber(), el.getPhoneDesc()));
                     }
                 }
             }

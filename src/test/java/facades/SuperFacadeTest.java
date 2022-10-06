@@ -43,8 +43,10 @@ public class SuperFacadeTest {
                 Person testPerson2 = new Person("Test 2", "Person 2", "Test2@Person2.dk");
                 testPerson2.addHobby(badminton);
                 testPerson2.addAddress(address);
+                Person testPerson3 = new Person("Lars", "test3", "test3@test.dk");
                 em.persist(testPerson);
                 em.persist(testPerson2);
+                em.persist(testPerson3);
                 em.getTransaction().commit();
             } finally {
                 em.close();

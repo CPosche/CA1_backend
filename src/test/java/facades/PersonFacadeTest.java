@@ -43,9 +43,10 @@ public class PersonFacadeTest extends SuperFacadeTest{
     void editPersonTest(){
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("select p from Person p where p.personFirstname = :name", Person.class);
-        query.setParameter("name", "Test");
+        query.setParameter("name", "Lars");
         Person person = query.getSingleResult();
         person.setPersonEmail("edited@test.dk");
+        person.addHobby(new Hobby(1, "Badminton", "Friday night"));
         PersonDto personDto = new PersonDto(person);
         assertEquals("edited@test.dk", facade.editPerson(personDto).getPersonEmail());
     }

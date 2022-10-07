@@ -34,10 +34,7 @@ public class PersonResource {
     public Response createPerson(String jsonInput) throws EntityNotFoundException {
         PersonDto personDto = GSON.fromJson(jsonInput, PersonDto.class);
         PersonDto newPerson = FACADE.createPerson(personDto);
-        return Response.ok().header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Credentials", "true")
-                .header("Access-Control-Allow-Headers","origin, content-type, accept, authorization")
-                .header("Access-Control-Allow-Methods","GET, POST, PUT, DELETE, OPTIONS, HEAD").entity(GSON.toJson(newPerson)).build();
+        return Response.ok().entity(GSON.toJson(newPerson)).build();
     }
 
     @GET
@@ -47,20 +44,14 @@ public class PersonResource {
         Cityinfo cityinfo = new Cityinfo(zipcode, cityname);
         CityinfoDto cityinfoDto = new CityinfoDto(cityinfo);
         List<PersonDto> personList = FACADE.getPersonsByZip(cityinfoDto);
-        return Response.ok().header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Credentials", "true")
-                .header("Access-Control-Allow-Headers","origin, content-type, accept, authorization")
-                .header("Access-Control-Allow-Methods","GET, POST, PUT, DELETE, OPTIONS, HEAD").entity(GSON.toJson(personList)).build();
+        return Response.ok().entity(GSON.toJson(personList)).build();
     }
     @GET
     @Path("count/hobby")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getCountByHobbyName(@QueryParam("hobby") String hobby) throws EntityNotFoundException{
         int hobbyCount = FACADE.getCountByHobby(hobby);
-        return Response.ok().header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Credentials", "true")
-                .header("Access-Control-Allow-Headers","origin, content-type, accept, authorization")
-                .header("Access-Control-Allow-Methods","GET, POST, PUT, DELETE, OPTIONS, HEAD").entity(GSON.toJson(hobbyCount)).build();
+        return Response.ok().entity(GSON.toJson(hobbyCount)).build();
     }
 
     @GET
@@ -68,10 +59,7 @@ public class PersonResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getCountByZip(@QueryParam("zip") int zip) throws EntityNotFoundException {
         int zipcount = FACADE.getCountByZip(zip);
-        return Response.ok().header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Credentials", "true")
-                .header("Access-Control-Allow-Headers","origin, content-type, accept, authorization")
-                .header("Access-Control-Allow-Methods","GET, POST, PUT, DELETE, OPTIONS, HEAD").entity(GSON.toJson(zipcount)).build();
+        return Response.ok().entity(GSON.toJson(zipcount)).build();
     }
 
     @GET
